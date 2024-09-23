@@ -1,8 +1,15 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
 @Info(auteur = "Jean Dupont", version = "1.0", description = "Classe représentant un utilisateur de la bibliothèque")
 public class Utilisateur implements Comparable<Utilisateur> {
     private String nom;
     private String email;
-    private String idUtilisateur; // Un identifiant unique pour chaque utilisateur
+    private String idUtilisateur;
+    private static final HashMap<Utilisateur, List<Livre>> emprunts = new HashMap<>();
+    private static final List<Utilisateur> utilisateurs = new ArrayList<>();
 
     // Constructeur
     public Utilisateur(String nom, String email) {
@@ -10,6 +17,8 @@ public class Utilisateur implements Comparable<Utilisateur> {
         this.email = email;
         this.idUtilisateur = genererIdUtilisateur(); // Génère un ID unique pour l'utilisateur
     }
+
+    public Utilisateur() {}
 
     // Getters
     public String getNom() {
@@ -20,14 +29,24 @@ public class Utilisateur implements Comparable<Utilisateur> {
         return email;
     }
 
-    public String getIdUtilisateur() {
+    public static void ajouterUtilisateur(Utilisateur utilisateur) {
+        if (!utilisateurs.contains(utilisateur)) {
+            utilisateurs.add(utilisateur);
+        }
+    }
+
+    public String getUtilisateur() {
         return idUtilisateur;
+    }
+
+    public static List<Utilisateur> getUtilisateurs() {
+        return utilisateurs;
     }
 
     // Méthode pour comparer deux utilisateurs (par ID d'utilisateur)
     @Override
     public int compareTo(Utilisateur autreUtilisateur) {
-        return this.idUtilisateur.compareTo(autreUtilisateur.getIdUtilisateur());
+        return this.idUtilisateur.compareTo(autreUtilisateur.getUtilisateur());
     }
 
     // Générer un ID unique (exemple basique)
@@ -50,11 +69,29 @@ public class Utilisateur implements Comparable<Utilisateur> {
         if (obj == null || getClass() != obj.getClass()) return false;
 
         Utilisateur utilisateur = (Utilisateur) obj;
-        return idUtilisateur.equals(utilisateur.idUtilisateur);
+        return nom.equals(utilisateur.nom) && email.equals(utilisateur.email);
     }
 
     @Override
     public int hashCode() {
-        return idUtilisateur.hashCode();
+        return Objects.hash(nom, email);
+    }
+
+    public static void supprimerUtilisateur(Utilisateur utilisateur) throws UtilisateurInexistantException {
+        if (!utilisateurs.contains(utilisateur)) {
+            throw new UtilisateurInexistantException("Impossible de supprimer, utilisateur inexistant.");
+        }
+        utilisateurs.remove(utilisateur);
+        emprunts.remove(utilisateur);
+    }
+
+    // Méthode pour rechercher un utilisateur dans la liste
+    public static Utilisateur rechercherUtilisateur(String nom, String email) {
+        for (Utilisateur utilisateur : utilisateurs) {
+            if (utilisateur.getNom().equals(nom) && utilisateur.getEmail().equals(email)) {
+                return utilisateur;
+            }
+        }
+        return null;
     }
 }

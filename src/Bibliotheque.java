@@ -1,14 +1,16 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Bibliotheque {
     private final List<Livre> livres = new ArrayList<>();
-    private final List<Utilisateur> utilisateurs = new ArrayList<>();
     private final Map<Utilisateur, List<Emprunt>> emprunts = new HashMap<>();
+    private List<Livre> catalogue;
+
+    public Bibliotheque() {
+        // Initialisation du catalogue avec une liste vide
+        this.catalogue = new ArrayList<>();
+    }
 
     public List<Livre> getLivres() {
         return livres;
@@ -16,31 +18,36 @@ public class Bibliotheque {
 
     public void ajouterLivre(Livre livre) {
         livres.add(livre);
+        catalogue.add(livre); // Ajout du livre dans le catalogue aussi
     }
+
     public void supprimerLivre(Livre livre) {
         livres.remove(livre);
+        catalogue.remove(livre); // Supprimer le livre du catalogue
     }
-    public void ajouterUtilisateur(Utilisateur utilisateur) {
-        utilisateurs.add(utilisateur);
-    }
+
     public List<Livre> getLivresEmpruntes(Utilisateur utilisateur) {
         return emprunts.getOrDefault(utilisateur, new ArrayList<>())
                 .stream()
                 .map(Emprunt::getLivre)
                 .collect(Collectors.toList());
     }
+
     public void emprunterLivre(Utilisateur utilisateur, Livre livre) throws LivreNonDisponibleException, UtilisateurInexistantException {
+        List<Utilisateur> utilisateurs = Utilisateur.getUtilisateurs();
         if (!utilisateurs.contains(utilisateur)) {
             throw new UtilisateurInexistantException("Utilisateur non trouvé !");
         }
+
         if (!livres.contains(livre) || !livre.isDisponible()) {
             throw new LivreNonDisponibleException("Le livre n'est pas disponible !");
         }
 
-        Emprunt nouvelEmprunt = new Emprunt(utilisateur, livre); // Utilise le constructeur correct
+        Emprunt nouvelEmprunt = new Emprunt(utilisateur, livre);
         emprunts.computeIfAbsent(utilisateur, k -> new ArrayList<>()).add(nouvelEmprunt);
         livre.setDisponible(false); // Marque le livre comme non disponible
     }
+
     public void verifierRetards() {
         LocalDate dateActuelle = LocalDate.now();
         for (Map.Entry<Utilisateur, List<Emprunt>> entry : emprunts.entrySet()) {
@@ -55,7 +62,35 @@ public class Bibliotheque {
         }
     }
 
+    public List<Livre> rechercherLivresParTitre(String motCle) {
+        return livres.stream()
+                .filter(livre -> livre.getTitre().toLowerCase().contains(motCle.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Livre> trierLivresParAnnee() {
+        return livres.stream()
+                .sorted(Comparator.comparingInt(Livre::getAnneePublication))
+                .collect(Collectors.toList());
+    }
+
+    public Livre rechercherLivreParIsbn(String isbn) {
+        // Vérifie d'abord si le catalogue est bien initialisé
+        if (catalogue == null) {
+            System.out.println("Le catalogue est vide.");
+            return null;
+        }
+
+        for (Livre livre : catalogue) {
+            if (livre.getIsbn().equals(isbn)) {
+                return livre; // Retourne le livre trouvé
+            }
+        }
+        return null; // Retourne null si aucun livre n'est trouvé avec cet ISBN
+    }
+
     public void retournerLivre(Utilisateur utilisateur, Livre livre, LocalDate dateRetour) throws UtilisateurInexistantException {
+        List<Utilisateur> utilisateurs = Utilisateur.getUtilisateurs();
         if (!utilisateurs.contains(utilisateur)) {
             throw new UtilisateurInexistantException("Utilisateur non trouvé !");
         }
@@ -64,7 +99,7 @@ public class Bibliotheque {
             for (Emprunt emprunt : livresEmpruntes) {
                 if (emprunt.getLivre().equals(livre)) {
                     emprunt.retournerLivre(dateRetour);
-                    livres.add(livre);
+                    livre.setDisponible(true); // Marque le livre comme disponible
                     break;
                 }
             }
@@ -76,6 +111,6 @@ public class Bibliotheque {
     }
 
     public void afficherUtilisateurs() {
-        Utils.afficherElements(utilisateurs);
+        Utils.afficherElements(Utilisateur.getUtilisateurs());
     }
 }

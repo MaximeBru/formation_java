@@ -11,13 +11,13 @@ public class Chargement {
             String ligne;
             while ((ligne = reader.readLine()) != null) {
                 String[] donnees = ligne.split(",");
-                if (donnees.length == 3) {
+                if (donnees.length == 4) {  // Correction de donnees.length pour 4 éléments
                     Livre livre = new Livre(donnees[0], donnees[1], donnees[2], Integer.parseInt(donnees[3]));
                     livres.add(livre);
                 }
             }
         }
-        return livres;
+        return livres;  // Renvoie la liste complète de livres
     }
 
     public static List<Utilisateur> chargerUtilisateurs(String fichier) throws IOException {
@@ -32,6 +32,7 @@ public class Chargement {
                 }
             }
         }
-        return utilisateurs;
+        return utilisateurs; // Retourne une liste d'utilisateurs
     }
+
 }

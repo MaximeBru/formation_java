@@ -9,7 +9,7 @@ public class Emprunt {
 
     // Constructeur
     public Emprunt(Utilisateur utilisateur, Livre livre) {
-        this.utilisateur = utilisateur; // Initialisation de l'utilisateur
+        this.utilisateur = utilisateur;
         this.livre = livre;
         this.dateEmprunt = LocalDate.now();
         this.dateRetour = null;
@@ -25,7 +25,6 @@ public class Emprunt {
         return livre;
     }
 
-    // Getter pour la date d'emprunt
     public LocalDate getDateEmprunt() {
         return dateEmprunt;
     }
@@ -46,6 +45,6 @@ public class Emprunt {
             Period retard = Period.between(dateEmprunt, dateActuelle);
             return retard.getDays();
         }
-        return 0; // Pas de retard si le livre a été retourné
+        return 0;
     }
 }
