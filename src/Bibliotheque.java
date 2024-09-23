@@ -8,7 +8,7 @@ public class Bibliotheque {
     private List<Livre> catalogue;
 
     public Bibliotheque() {
-        // Initialisation du catalogue avec une liste vide
+
         this.catalogue = new ArrayList<>();
     }
 
@@ -18,12 +18,12 @@ public class Bibliotheque {
 
     public void ajouterLivre(Livre livre) {
         livres.add(livre);
-        catalogue.add(livre); // Ajout du livre dans le catalogue aussi
+        catalogue.add(livre);
     }
 
     public void supprimerLivre(Livre livre) {
         livres.remove(livre);
-        catalogue.remove(livre); // Supprimer le livre du catalogue
+        catalogue.remove(livre);
     }
 
     public List<Livre> getLivresEmpruntes(Utilisateur utilisateur) {
@@ -45,7 +45,7 @@ public class Bibliotheque {
 
         Emprunt nouvelEmprunt = new Emprunt(utilisateur, livre);
         emprunts.computeIfAbsent(utilisateur, k -> new ArrayList<>()).add(nouvelEmprunt);
-        livre.setDisponible(false); // Marque le livre comme non disponible
+        livre.setDisponible(false);
     }
 
     public void verifierRetards() {
@@ -86,7 +86,7 @@ public class Bibliotheque {
                 return livre; // Retourne le livre trouvé
             }
         }
-        return null; // Retourne null si aucun livre n'est trouvé avec cet ISBN
+        return null;
     }
 
     public void retournerLivre(Utilisateur utilisateur, Livre livre, LocalDate dateRetour) throws UtilisateurInexistantException {

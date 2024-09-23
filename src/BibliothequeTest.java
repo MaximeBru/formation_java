@@ -9,7 +9,7 @@ public class BibliothequeTest {
     @Test
     public void testAjouterLivre() {
         Bibliotheque bibliotheque = new Bibliotheque();
-        Livre livre = new Livre("Le Petit Prince", "Antoine de Saint-Exupéry", "978-0156012195", 1943);
+        Livre livre = new Livre("manga", "jap", "12195", 2000);
 
         bibliotheque.ajouterLivre(livre);
 
@@ -19,7 +19,7 @@ public class BibliothequeTest {
     @Test
     public void testSupprimerLivre() {
         Bibliotheque bibliotheque = new Bibliotheque();
-        Livre livre = new Livre("Le Petit Prince", "Antoine de Saint-Exupéry", "978-0156012195", 1943);
+        Livre livre = new Livre("manga", "jap", "12195", 2000);
 
         bibliotheque.ajouterLivre(livre);
         bibliotheque.supprimerLivre(livre);
@@ -30,8 +30,8 @@ public class BibliothequeTest {
     @Test
     public void testEmprunterLivre() throws UtilisateurInexistantException, LivreNonDisponibleException {
         Bibliotheque bibliotheque = new Bibliotheque();
-        Utilisateur utilisateur = new Utilisateur("Jean Dupont", "jean@example.com");
-        Livre livre = new Livre("Le Petit Prince", "Antoine de Saint-Exupéry", "978-0156012195", 1943);
+        Utilisateur utilisateur = new Utilisateur("test", "jap@gmail.com");
+        Livre livre = new Livre("manga", "Antoine de Saint-Exupéry", "12195", 2000);
 
         bibliotheque.ajouterLivre(livre);
         bibliotheque.emprunterLivre(utilisateur, livre);
@@ -42,13 +42,11 @@ public class BibliothequeTest {
     @Test
     public void testRetournerLivre() throws UtilisateurInexistantException, LivreNonDisponibleException {
         Bibliotheque bibliotheque = new Bibliotheque();
-        Utilisateur utilisateur = new Utilisateur("Jean Dupont", "jean@example.com");
-        Livre livre = new Livre("Le Petit Prince", "Antoine de Saint-Exupéry", "978-0156012195", 1943);
+        Utilisateur utilisateur = new Utilisateur("test", "jap@gmail.com");
+        Livre livre = new Livre("manga", "jap", "12195", 2000);
 
         bibliotheque.ajouterLivre(livre);
         bibliotheque.emprunterLivre(utilisateur, livre);
-
-        // Appelle retournerLivre avec les bons paramètres
         bibliotheque.retournerLivre(utilisateur, livre, LocalDate.now());
 
         assertTrue(livre.isDisponible());

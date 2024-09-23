@@ -11,13 +11,13 @@ public class Chargement {
             String ligne;
             while ((ligne = reader.readLine()) != null) {
                 String[] donnees = ligne.split(",");
-                if (donnees.length == 4) {  // Correction de donnees.length pour 4 éléments
+                if (donnees.length == 4) {
                     Livre livre = new Livre(donnees[0], donnees[1], donnees[2], Integer.parseInt(donnees[3]));
                     livres.add(livre);
                 }
             }
         }
-        return livres;  // Renvoie la liste complète de livres
+        return livres;
     }
 
     public static List<Utilisateur> chargerUtilisateurs(String fichier) throws IOException {
@@ -26,13 +26,13 @@ public class Chargement {
             String ligne;
             while ((ligne = reader.readLine()) != null) {
                 String[] donnees = ligne.split(",");
-                if (donnees.length == 2) {
+                if (donnees.length == 3) {
                     Utilisateur utilisateur = new Utilisateur(donnees[0], donnees[1]);
+                    utilisateur.setIdUtilisateur(donnees[2]);
                     utilisateurs.add(utilisateur);
                 }
             }
         }
-        return utilisateurs; // Retourne une liste d'utilisateurs
+        return utilisateurs;
     }
-
 }

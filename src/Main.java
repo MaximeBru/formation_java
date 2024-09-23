@@ -185,12 +185,12 @@ public class Main {
         try {
             List<Livre> livres = Chargement.chargerLivres("livres.txt");
             for (Livre livre : livres) {
-                bibliotheque.ajouterLivre(livre); // Ajout de chaque livre à la bibliothèque
+                bibliotheque.ajouterLivre(livre);
             }
 
             List<Utilisateur> utilisateurs = Chargement.chargerUtilisateurs("utilisateurs.txt");
             for (Utilisateur utilisateur : utilisateurs) {
-                Utilisateur.ajouterUtilisateur(utilisateur); // Ajoute chaque utilisateur
+                Utilisateur.ajouterUtilisateur(utilisateur); // Ajout utilisateur
             }
 
             System.out.println("Données chargées avec succès.");

@@ -12,7 +12,7 @@ public class Livre {
         this.auteur = auteur;
         this.isbn = isbn;
         this.anneePublication = anneePublication;
-        this.disponible = true;  // Par défaut, le livre est disponible lors de sa création
+        this.disponible = true;
     }
 
     // Getters et setters
@@ -56,13 +56,12 @@ public class Livre {
         this.disponible = disponible;
     }
 
-    // Méthode pour comparer deux livres par titre, auteur et ISBN
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Livre livre = (Livre) o;
-        return Objects.equals(isbn, livre.isbn); // Comparaison basée sur l'ISBN
+        return Objects.equals(isbn, livre.isbn);
     }
 
     @Override
@@ -70,7 +69,6 @@ public class Livre {
         return Objects.hash(isbn);
     }
 
-    // Méthode toString pour afficher les informations du livre
     @Override
     public String toString() {
         return "Livre{" +
@@ -82,7 +80,6 @@ public class Livre {
                 '}';
     }
 
-    // Comparaison basée sur l'année de publication, par exemple pour tri via Stream
     public static int comparerParAnnee(Livre l1, Livre l2) {
         return Integer.compare(l1.getAnneePublication(), l2.getAnneePublication());
     }

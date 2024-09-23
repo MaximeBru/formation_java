@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-@Info(auteur = "Jean Dupont", version = "1.0", description = "Classe représentant un utilisateur de la bibliothèque")
+@Info(auteur = "max", version = "1.0", description = " utilisateur de la bibliothèque")
 public class Utilisateur implements Comparable<Utilisateur> {
     private String nom;
     private String email;
@@ -15,7 +15,7 @@ public class Utilisateur implements Comparable<Utilisateur> {
     public Utilisateur(String nom, String email) {
         this.nom = nom;
         this.email = email;
-        this.idUtilisateur = genererIdUtilisateur(); // Génère un ID unique pour l'utilisateur
+        this.idUtilisateur = genererIdUtilisateur();
     }
 
     public Utilisateur() {}
@@ -39,17 +39,20 @@ public class Utilisateur implements Comparable<Utilisateur> {
         return idUtilisateur;
     }
 
+    public void setIdUtilisateur(String idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
+    }
+
     public static List<Utilisateur> getUtilisateurs() {
         return utilisateurs;
     }
 
-    // Méthode pour comparer deux utilisateurs (par ID d'utilisateur)
     @Override
     public int compareTo(Utilisateur autreUtilisateur) {
         return this.idUtilisateur.compareTo(autreUtilisateur.getUtilisateur());
     }
 
-    // Générer un ID unique (exemple basique)
+    // Générer un ID
     private String genererIdUtilisateur() {
         return "USER-" + nom.substring(0, 3).toUpperCase() + "-" + System.currentTimeMillis();
     }
@@ -85,7 +88,6 @@ public class Utilisateur implements Comparable<Utilisateur> {
         emprunts.remove(utilisateur);
     }
 
-    // Méthode pour rechercher un utilisateur dans la liste
     public static Utilisateur rechercherUtilisateur(String nom, String email) {
         for (Utilisateur utilisateur : utilisateurs) {
             if (utilisateur.getNom().equals(nom) && utilisateur.getEmail().equals(email)) {
