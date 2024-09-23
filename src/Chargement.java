@@ -12,7 +12,7 @@ public class Chargement {
             while ((ligne = reader.readLine()) != null) {
                 String[] donnees = ligne.split(",");
                 if (donnees.length == 3) {
-                    Livre livre = new Livre(donnees[0], donnees[1], donnees[2]);
+                    Livre livre = new Livre(donnees[0], donnees[1], donnees[2], Integer.parseInt(donnees[3]));
                     livres.add(livre);
                 }
             }
